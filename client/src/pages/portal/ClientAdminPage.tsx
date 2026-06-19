@@ -6,6 +6,7 @@ import StatusChip, {
   taskStatusTone,
 } from "@/components/portal/StatusChip";
 import InternalOnlyBadge from "@/components/portal/InternalOnlyBadge";
+import AdminScratchpad from "@/components/portal/AdminScratchpad";
 import { useViewMode } from "@/components/portal/ViewModeContext";
 
 export default function ClientAdminPage() {
@@ -173,6 +174,8 @@ export default function ClientAdminPage() {
           <li>Capture pilot learnings to harden the productized buildout.</li>
         </ul>
       </section>
+
+      <AdminScratchpad storageKey={`becs-os.scratchpad.${ws.client.slug}`} />
 
       <section className="becs-card p-5">
         <div className="becs-section-title">Pending Approvals</div>

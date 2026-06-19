@@ -3,6 +3,7 @@ import { useWorkspace } from "@/components/portal/useWorkspace";
 import StatusCard from "@/components/portal/StatusCard";
 import PhaseProgress from "@/components/portal/PhaseProgress";
 import StatusChip from "@/components/portal/StatusChip";
+import CriticalPathPanel from "@/components/portal/CriticalPathPanel";
 import {
   useVisibilityFilter,
   useViewMode,
@@ -107,6 +108,8 @@ export default function ClientWorkspacePage() {
           </div>
         </div>
       </div>
+
+      <CriticalPathPanel tasks={visibleTasks} />
 
       <section className="becs-card p-5">
         <div className="flex flex-wrap items-start justify-between gap-3">

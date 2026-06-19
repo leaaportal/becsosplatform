@@ -47,34 +47,141 @@ const project: ClientProject = {
     "Controlled client pilot. Use this engagement to validate the BECS Healthcare Operations Buildout package, refine compliance intake, and stress-test the BECS OS workspace. Do not collect PHI through BECS OS.",
 };
 
-const becsTaskTitles: Array<Pick<ClientTask, "title" | "priority" | "status">> = [
-  { title: "Finalize service agreement", priority: "High", status: "In Progress" },
-  { title: "Finalize scope of work", priority: "High", status: "In Progress" },
-  { title: "Prepare invoice / payment link", priority: "High", status: "Not Started" },
-  { title: "Build client workspace", priority: "High", status: "In Progress" },
-  { title: "Load intake checklist", priority: "Medium", status: "Not Started" },
-  { title: "Load compliance tracker", priority: "Medium", status: "Not Started" },
-  { title: "Prepare kickoff agenda", priority: "Medium", status: "Not Started" },
-  { title: "Prepare document request list", priority: "Medium", status: "Not Started" },
-  { title: "Review digital presence", priority: "Low", status: "Not Started" },
-  { title: "Draft workflow map", priority: "Medium", status: "Not Started" },
+type TaskSeed = Pick<ClientTask, "title" | "priority" | "status"> & {
+  due_date?: string | null;
+  critical?: boolean;
+};
+
+const becsTaskTitles: TaskSeed[] = [
+  {
+    title: "Finalize service agreement",
+    priority: "High",
+    status: "In Progress",
+    due_date: "2026-06-23",
+    critical: true,
+  },
+  {
+    title: "Finalize scope of work",
+    priority: "High",
+    status: "In Progress",
+    due_date: "2026-06-23",
+    critical: true,
+  },
+  {
+    title: "Prepare invoice / payment link",
+    priority: "High",
+    status: "Not Started",
+    due_date: "2026-06-24",
+    critical: true,
+  },
+  {
+    title: "Build client workspace",
+    priority: "High",
+    status: "In Progress",
+    due_date: "2026-06-22",
+  },
+  {
+    title: "Load intake checklist",
+    priority: "Medium",
+    status: "Not Started",
+    due_date: "2026-06-26",
+  },
+  {
+    title: "Load compliance tracker",
+    priority: "Medium",
+    status: "Not Started",
+    due_date: "2026-06-26",
+  },
+  {
+    title: "Prepare kickoff agenda",
+    priority: "Medium",
+    status: "Not Started",
+    due_date: "2026-06-30",
+  },
+  {
+    title: "Prepare document request list",
+    priority: "Medium",
+    status: "Not Started",
+    due_date: "2026-06-26",
+  },
+  {
+    title: "Review digital presence",
+    priority: "Low",
+    status: "Not Started",
+    due_date: "2026-07-10",
+  },
+  {
+    title: "Draft workflow map",
+    priority: "Medium",
+    status: "Not Started",
+    due_date: "2026-07-17",
+  },
 ];
 
-const clientTaskTitles: Array<Pick<ClientTask, "title" | "priority" | "status">> = [
-  { title: "Review and sign agreement", priority: "High", status: "Waiting" },
-  { title: "Submit initial business intake", priority: "High", status: "Not Started" },
-  { title: "Upload business registration", priority: "High", status: "Not Started" },
-  { title: "Upload EIN confirmation", priority: "High", status: "Not Started" },
-  { title: "Upload insurance documents", priority: "High", status: "Not Started" },
+const clientTaskTitles: TaskSeed[] = [
+  {
+    title: "Review and sign agreement",
+    priority: "High",
+    status: "Waiting",
+    due_date: "2026-06-26",
+    critical: true,
+  },
+  {
+    title: "Submit initial business intake",
+    priority: "High",
+    status: "Not Started",
+    due_date: "2026-07-02",
+    critical: true,
+  },
+  {
+    title: "Upload business registration",
+    priority: "High",
+    status: "Not Started",
+    due_date: "2026-07-02",
+  },
+  {
+    title: "Upload EIN confirmation",
+    priority: "High",
+    status: "Not Started",
+    due_date: "2026-07-02",
+  },
+  {
+    title: "Upload insurance documents",
+    priority: "High",
+    status: "Not Started",
+    due_date: "2026-07-02",
+  },
   {
     title: "Upload licensing documents, if available",
     priority: "Medium",
     status: "Not Started",
+    due_date: "2026-07-10",
   },
-  { title: "Submit current tools/software list", priority: "Medium", status: "Not Started" },
-  { title: "Submit current staffing structure", priority: "Medium", status: "Not Started" },
-  { title: "Submit current service list", priority: "Medium", status: "Not Started" },
-  { title: "Confirm kickoff meeting availability", priority: "High", status: "Not Started" },
+  {
+    title: "Submit current tools/software list",
+    priority: "Medium",
+    status: "Not Started",
+    due_date: "2026-07-10",
+  },
+  {
+    title: "Submit current staffing structure",
+    priority: "Medium",
+    status: "Not Started",
+    due_date: "2026-07-10",
+  },
+  {
+    title: "Submit current service list",
+    priority: "Medium",
+    status: "Not Started",
+    due_date: "2026-07-10",
+  },
+  {
+    title: "Confirm kickoff meeting availability",
+    priority: "High",
+    status: "Not Started",
+    due_date: "2026-06-26",
+    critical: true,
+  },
 ];
 
 const tasks: ClientTask[] = [
@@ -83,13 +190,13 @@ const tasks: ClientTask[] = [
     client_id: CLIENT_ID,
     project_id: PROJECT_ID,
     title: t.title,
-    description: "",
+    description: t.critical ? "Critical-path action for kickoff readiness." : "",
     owner_type: "BECS",
     assigned_to: "BECS Team",
     phase: "PLAN",
     priority: t.priority,
     status: t.status,
-    due_date: null,
+    due_date: t.due_date ?? null,
     internal_only: false,
   })),
   ...clientTaskTitles.map<ClientTask>((t, idx) => ({
@@ -97,13 +204,13 @@ const tasks: ClientTask[] = [
     client_id: CLIENT_ID,
     project_id: PROJECT_ID,
     title: t.title,
-    description: "",
+    description: t.critical ? "Critical-path action for kickoff readiness." : "",
     owner_type: "Client",
     assigned_to: "The Beginning Home Health",
     phase: "PLAN",
     priority: t.priority,
     status: t.status,
-    due_date: null,
+    due_date: t.due_date ?? null,
     internal_only: false,
   })),
   {

@@ -6,6 +6,7 @@ import StatusChip, {
   taskStatusTone,
 } from "@/components/portal/StatusChip";
 import InternalOnlyBadge from "@/components/portal/InternalOnlyBadge";
+import { dueLabel, dueTone } from "@/lib/dates";
 import {
   useViewMode,
   useVisibilityFilter,
@@ -133,7 +134,16 @@ function TaskTable({ rows }: { rows: ClientTask[] }) {
             <td>
               <StatusChip label={t.status} tone={taskStatusTone(t.status)} />
             </td>
-            <td className="text-slate-600">{t.due_date ?? "—"}</td>
+            <td>
+              {t.due_date ? (
+                <StatusChip
+                  label={dueLabel(t.due_date)}
+                  tone={dueTone(t.due_date)}
+                />
+              ) : (
+                <span className="text-slate-400 text-sm">—</span>
+              )}
+            </td>
           </tr>
         ))}
       </tbody>

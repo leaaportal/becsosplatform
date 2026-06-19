@@ -2,6 +2,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
   type ReactNode,
@@ -17,6 +18,19 @@ interface ViewModeContextValue {
 
 const ViewModeContext = createContext<ViewModeContextValue | null>(null);
 
+const STORAGE_KEY = "becs-os.viewMode";
+
+function readStoredView(initial: Visibility): Visibility {
+  if (typeof window === "undefined") return initial;
+  try {
+    const stored = window.sessionStorage.getItem(STORAGE_KEY);
+    if (stored === "client" || stored === "admin") return stored;
+  } catch {
+    // sessionStorage may be unavailable (private mode, disabled storage).
+  }
+  return initial;
+}
+
 export function ViewModeProvider({
   children,
   initial = "client",
@@ -24,14 +38,29 @@ export function ViewModeProvider({
   children: ReactNode;
   initial?: Visibility;
 }) {
-  const [view, setView] = useState<Visibility>(initial);
+  const [view, setViewState] = useState<Visibility>(() => readStoredView(initial));
+
+  const setView = useCallback((next: Visibility) => {
+    setViewState(next);
+  }, []);
+
   const toggle = useCallback(
-    () => setView((prev) => (prev === "client" ? "admin" : "client")),
+    () => setViewState((prev) => (prev === "client" ? "admin" : "client")),
     [],
   );
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      window.sessionStorage.setItem(STORAGE_KEY, view);
+    } catch {
+      // ignore storage failures
+    }
+  }, [view]);
+
   const value = useMemo(
     () => ({ view, setView, toggle, isAdmin: view === "admin" }),
-    [view, toggle],
+    [view, setView, toggle],
   );
   return (
     <ViewModeContext.Provider value={value}>{children}</ViewModeContext.Provider>
