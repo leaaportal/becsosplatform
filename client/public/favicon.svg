@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#26296A"/>
+  <path d="M16 18h18a10 10 0 0 1 0 20H22v8h12a10 10 0 1 1 0 0H16V18z" fill="#8DC63F"/>
+  <text x="32" y="44" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#F4F7E9">BECS</text>
+</svg>

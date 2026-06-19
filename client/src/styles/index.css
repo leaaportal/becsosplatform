@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-becs-cream text-slate-900 font-sans antialiased;
+  }
+
+  a {
+    @apply text-becs-navy hover:text-becs-purple;
+  }
+
+  ::selection {
+    @apply bg-becs-lime/40 text-becs-navy;
+  }
+}
+
+@layer components {
+  .becs-card {
+    @apply rounded-xl bg-white border border-slate-200 shadow-card;
+  }
+
+  .becs-chip {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium;
+  }
+
+  .becs-divider {
+    @apply h-px w-full bg-slate-200;
+  }
+
+  .becs-table {
+    @apply min-w-full divide-y divide-slate-200 text-sm;
+  }
+
+  .becs-table thead th {
+    @apply px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-500;
+  }
+
+  .becs-table tbody td {
+    @apply px-4 py-3 align-top text-slate-700;
+  }
+
+  .becs-table tbody tr {
+    @apply border-t border-slate-100 hover:bg-becs-cream/40;
+  }
+
+  .becs-section-title {
+    @apply text-xs font-semibold uppercase tracking-[0.16em] text-slate-500;
+  }
+}
